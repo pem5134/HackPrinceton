@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script language="javascript" type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.2.22/p5.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+   <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script language="javascript" type="text/javascript" src="Gamestuff.js">
+  </script> 
+
+</head>
+
+<canvas id="elementCanvas" width="600" height="600"> </canvas>
+<script>
+var canvas= document.getElementById("elementCanvas");
+var context = canvas.getContext("2d");
+context.beginPath();
+context.moveTo(100,150);
+context.lineTo(450,50)
+context.lineWidth  = 10;
+
+context.strokeStyle = "#ff0000"
+context.stroke();
+</script>
+
+
+</html>

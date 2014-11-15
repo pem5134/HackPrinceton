@@ -18,6 +18,7 @@
   ],
   "dependencies": {
     "dat-gui": "0.5.0",
-    "threejs": "r67"
+    "threejs": "r67",
+    "video-camera-element": "~0.1.3"
   }
 }

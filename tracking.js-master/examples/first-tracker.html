@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>tracking.js - first tracking</title>
+	<script src="../build/tracking.js"></script>
+</head>
+<body>
+	<!-- <video id="myVideo" width="400" height="300" preload autoplay loop muted></video> -->
+	<script src="bower_components/platform/platform.js"></script>
+	<link rel="import" href="bower_components/video-camera-element/dist/video-camera.html">
+	<video id="myVideo" is="video-camera" autoplay></video>
+	<canvas id="canvas" width="640" height="480" style="position:absolute; top:0; left:0;"></canvas>
+	<button id="reset">Reset</button>
+	<script>
+
+		window.onload = function() {
+			var lastSound = Date.now();
+			var x = Math.random()*640;
+			var y = Math.random()*480;
+			var cow = [];
+			for(var i = 0; i < 12; i++){
+				cow.push(new Audio('assets/cow/'+i+'.mp3'));			
+			}
+			var moo = new Audio('assets/cow/win.mp3');
+			var video = document.getElementById('video');
+			var canvas = document.getElementById('canvas');
+			var context = canvas.getContext('2d');
+
+			reset = function(){
+				context.clearRect(0, 0, canvas.width, canvas.height);
+			}
+
+			document.getElementById("reset").addEventListener("click", reset);
+
+	  		context.strokeStyle = 'red';
+	  		context.strokeRect(x, y, 5, 5);
+
+			tracking.ColorTracker.registerColor('red', function(r, g, b) {
+				if (r > 150 && g > 150 && b > 150) {
+					return true;
+				}
+				return false;
+			});
+
+			// tracking.ColorTracker.registerColor('red', function(r, g, b) {
+			// 	if ((r > 100 && g < 50 && b < 50) || (r > 200 && g > 200 && b > 200)) {
+			// 		return true;
+			// 	}
+			// 	return false;
+			// });
+
+			var colors = new tracking.ColorTracker(['red']);
+
+			var wasOn = false;
+			var lastx, lasty;
+			colors.on('track', function(event) {
+				// context.clearRect(0, 0, canvas.width, canvas.height);
+				if (event.data.length === 0) {
+					wasOn = false;
+				    	// console.log(0);
+				      // No colors were detected in this frame.
+				} else {
+				  	event.data.forEach(function(rect) {
+				  		// console.log(rect.x, rect.y, rect.height, rect.width, rect.color);
+
+				  		// var distance = Math.sqrt((rect.x-x)^2 + (rect.y-y)^2);
+				  		// // console.log(Date.now()-lastSound);
+				  		// if(distance < 110 && Date.now()-lastSound > 1000){
+					  	// 	console.log(distance);
+					  	// 	console.log(10-Math.floor(distance/10));
+				  		// 	cow[10-Math.floor(distance/10)].currentTime=0;
+				  		// 	cow[10-Math.floor(distance/10)].play();
+				  		// 	lastSound = Date.now();
+				  		// } 
+						if(wasOn){			  			
+					  		context.strokeStyle = rect.color;
+							context.beginPath();
+							context.moveTo(lastx,lasty);
+							context.lineTo(rect.x,rect.y);
+					  		context.stroke();
+					  		lastx = rect.x;
+					  		lasty = rect.y;
+					  		// context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+					  		// context.font = '11px Helvetica';
+					  		// context.fillStyle = "#fff";
+					  		// context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+					  		// context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+				  		}
+				  	});
+				  	wasOn = true;
+				}
+			});
+			tracking.track('#myVideo', colors);
+		};
+	</script>
+</body>
+</html>

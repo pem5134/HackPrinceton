@@ -11,7 +11,7 @@
 	<link rel="import" href="bower_components/video-camera-element/dist/video-camera.html">
 	<video id="myVideo" is="video-camera" autoplay></video>
 	<canvas id="canvas" width="640" height="480" style="position:absolute; top:0; left:0;"></canvas>
-	<button id="reset">Reset</button>
+	<!-- <button id="reset">Reset</button> -->
 	<script>
 
 		window.onload = function() {
@@ -31,7 +31,7 @@
 				context.clearRect(0, 0, canvas.width, canvas.height);
 			}
 
-			document.getElementById("reset").addEventListener("click", reset);
+			// document.getElementById("reset").addEventListener("click", reset);
 
 	  		context.strokeStyle = 'red';
 	  		context.strokeRect(x, y, 5, 5);
@@ -55,7 +55,7 @@
 			var wasOn = false;
 			var lastx, lasty;
 			colors.on('track', function(event) {
-				// context.clearRect(0, 0, canvas.width, canvas.height);
+				context.clearRect(0, 0, canvas.width, canvas.height);
 				if (event.data.length === 0) {
 					wasOn = false;
 				    	// console.log(0);
@@ -73,20 +73,20 @@
 				  		// 	cow[10-Math.floor(distance/10)].play();
 				  		// 	lastSound = Date.now();
 				  		// } 
-						if(wasOn){			  			
-					  		context.strokeStyle = rect.color;
-							context.beginPath();
-							context.moveTo(lastx,lasty);
-							context.lineTo(rect.x,rect.y);
-					  		context.stroke();
-					  		lastx = rect.x;
-					  		lasty = rect.y;
-					  		// context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-					  		// context.font = '11px Helvetica';
-					  		// context.fillStyle = "#fff";
-					  		// context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-					  		// context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
-				  		}
+						// if(wasOn){			  			
+					 //  		context.strokeStyle = rect.color;
+						// 	context.beginPath();
+						// 	context.moveTo(lastx,lasty);
+						// 	context.lineTo(rect.x,rect.y);
+					 //  		context.stroke();
+					 //  		lastx = rect.x;
+					 //  		lasty = rect.y;
+				  // 		}
+				  		context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+				  		context.font = '11px Helvetica';
+				  		context.fillStyle = "#fff";
+				  		context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+				  		context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
 				  	});
 				  	wasOn = true;
 				}

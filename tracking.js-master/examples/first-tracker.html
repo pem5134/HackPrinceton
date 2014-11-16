@@ -91,6 +91,12 @@
 				  	wasOn = true;
 				}
 			});
+      		function draw(rect) {
+        		drawSegments[segment].push(rect.x + rect.width / 2, rect.y + rect.height / 2);
+      		}
+      		draw()
+      		drawSegments = [drawSegments[drawSegments.length - 1]];
+          segment = 0;
 			tracking.track('#myVideo', colors);
 		};
 	</script>

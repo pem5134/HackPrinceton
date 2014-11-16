@@ -7,14 +7,19 @@ var canvas= document.getElementById("elementCanvas"),
 context = canvas.getContext("2d"),
 width = 1600,
 height = 700,
-speed = 200,
-boundaryPieces = new Array();
+speed = 500,  // higher is slower
+boundaryPieces = new Array(),
 x = 0,
 topy = 0,
 bottomy = 400,
 dx = 0,
 topdy = 0,
-bottomdy = 0;
+bottomdy = 0,
+rightKey = false,
+leftKey = false,
+upKey = false,
+downKey = false,
+user_x = 20, user_y = 200, user_w = 10, user_h = 10;
 
 function getBoundaries() {
 	while(x < 1350) {
@@ -79,12 +84,15 @@ function paintBoundaries() {
 function init() {
 	boundaryPieces[0] = [0, 0, 400];
 	setInterval(gameLoop, speed);
+	document.addEventListener('keydown', keyDown, false);
+  	document.addEventListener('keyup', keyUp, false);
 }
 
 function gameLoop() {
 	clearCanvas();
 	getBoundaries();
 	paintBoundaries();
+	paintUser();
 	shiftScreen();
 }
 
@@ -106,6 +114,41 @@ function keyUp(e) {
 	if (e.keyCode == 38) upKey = false;
 	else if (e.keyCode == 40) downKey = false;
 }
+
+//Change with laser
+function paintUser() {
+	if (rightKey) user_x += 20;
+	else if (leftKey) user_x -= 20;
+	if (upKey) user_y -= 20;
+	else if (downKey) user_y += 20;
+	if (user_x <= 0) user_x = 0;
+	if ((user_x + user_w) >= width) user_x = width - user_w;
+	if (user_y <= 0) user_y = 0;
+	if ((user_y + user_h) >= height) user_y = height - user_h;
+	console.log(user_x, user_y);
+	context.fillStyle = '#0f0';
+	context.fillRect(user_x, user_y, user_w, user_h);
+}
+
+//Change with laser
+function getUserLoc() {
+	a = new Array();
+	a[0] = user_x;
+	a[1] = user_y;
+	// a[2] = user_x + user_h;
+	// a[3] = user_y + user_w;
+
+	return a;
+}
+
+// function loseCondition() {
+// 	Array loc = getUserLoc();
+// 	for(i = 0; i < boundaryPieces.length - 1; i++) {
+// 		if(loc[0] > boundaryPieces[i][0] && loc[0] < boundaryPieces[i + 1][0]) {
+// 			topSlope = boundaryPieces[]
+// 		}
+// 	}
+// }
 window.onload = init;
 </script>
 

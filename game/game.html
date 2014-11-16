@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+	<title>SQUAD5 AWESOMENESS</title>
+	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+</head>
+<h1>The Awesomeness</h1>
+<h2 id="score"></h2>
 <canvas id="elementCanvas" width="1600" height="700"> </canvas>
+<body>
+	<div></div>
+</body>
 <script>
 var canvas= document.getElementById("elementCanvas"),
 context = canvas.getContext("2d"),
@@ -14,7 +22,9 @@ topy = 0,
 bottomy = 400,
 dx = 0,
 topdy = 0,
-bottomdy = 0;
+bottomdy = 0,
+score=0;
+
 
 function getBoundaries() {
 	while(x < 1350) {
@@ -55,6 +65,18 @@ function shiftScreen() {
 		boundaryPieces[i][0] -= shiftAmount;
 	}
 	x -= shiftAmount;
+	score += (shiftAmount/500);
+	// for (i = 0; i < ; i++) { 
+ //    	score = i;
+    document.getElementById('score').innerHTML = Math.round(score);
+	
+	// if (ten != 0)	{
+	// 	rander+1
+	// 	console.log(rander)
+	// 	// $("h1").append(" <h1>"+rander+"</h1>.");
+	// 	// when x changes, add 1 to x.
+	// 	// append x to the heading
+	// } 
 }
 
 function paintBoundaries() {
@@ -106,8 +128,12 @@ function keyUp(e) {
 	if (e.keyCode == 38) upKey = false;
 	else if (e.keyCode == 40) downKey = false;
 }
+
 window.onload = init;
 </script>
 
 
 </html>
+
+
+

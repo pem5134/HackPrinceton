@@ -1,74 +1,103 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-<script language="javascript" type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.2.22/p5.js"></script>
-  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-   <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-  <script language="javascript" type="text/javascript" src="Gamestuff.js">
-  </script> 
-
-</head>
-
-<canvas id="elementCanvas" width="1200" height="700"> </canvas>
+<canvas id="elementCanvas" width="1600" height="700"> </canvas>
 <script>
-var canvas= document.getElementById("elementCanvas");
-var context = canvas.getContext("2d");
+var canvas= document.getElementById("elementCanvas"),
+context = canvas.getContext("2d"),
+width = 1600,
+height = 700,
+boundaryPieces = 
+x = 0,
+topy = 0,
+bottomy = 400,
+dx = 0,
+topdy = 0,
+bottomdy = 0;
 
+function drawBoundaries() {
+	x = 0;
+	topy = 0;
+	bottomy = 400;
+	while(x < 1450) {
+		dx = 100 + 150 * Math.random();
+		topdy = -100 + 200 * Math.random();
+		bottomdy = -200 + 400 * Math.random();
 
-topx = 0;
-topy = 0;
-bottomx = 0;
-bottomy = 600;
+		context.beginPath();
+		context.moveTo(x, topy);
 
+		x += dx;
+		topy += topdy;
 
-while(topx < 1050 && bottomx < 1050) {
-	topdx = 100 + 150 * Math.random();
-	topdy = -100 + 200 * Math.random();
-	bottomdx = 100 + 150 * Math.random();
-	bottomdy = -200 + 400 * Math.random();
+		while(topy > 500) {
+			topy -= 100;
+		} 
+		while(topy < 0) {
+			topy += 100;
+		}
 
-	context.beginPath();
-	context.moveTo(topx, topy);
+		context.lineTo(x,topy)
+		context.lineWidth  = 10;
+		context.strokeStyle = "#ff0000"
+		context.stroke();
 
-	topx += topdx;
-	topy += topdy;
+		context.beginPath();
+		context.moveTo(x - dx, bottomy);
 
-	while(topy > 500) {
-		topy -= 100;
-	} 
-	while(topy < 0) {
-		topy += 100;
+		bottomy += bottomdy;
+
+		while(bottomy > 700) {
+			bottomy -= 100;
+		} 
+		while(bottomy < 100) {
+			bottomy += 100;
+		}
+		while(bottomy - topy < 80 || bottomy - topy + topdy < 80) {
+			bottomy += 10
+		}
+
+		context.lineTo(x,bottomy)
+		context.lineWidth  = 10;
+		context.strokeStyle = "#ff0000"
+		context.stroke();
 	}
-
-	context.lineTo(topx,topy)
-	context.lineWidth  = 10;
-	context.strokeStyle = "#ff0000"
-	context.stroke();
-
-	context.beginPath();
-	context.moveTo(bottomx, bottomy);
-
-	bottomx += bottomdx;
-	bottomy += bottomdy;
-
-	while(bottomy > 700) {
-		bottomy -= 100;
-	} 
-	while(bottomy < 100) {
-		bottomy += 100;
-	}
-	while(bottomy - topy < 80 || bottomy - topy + topdy < 80) {
-		bottomy += 10
-	}
-
-	context.lineTo(bottomx,bottomy)
-	context.lineWidth  = 10;
-	context.strokeStyle = "#ff0000"
-	context.stroke();
 }
 
+function shiftScreen() {
 
+}
+
+function init() {
+	setInterval(gameLoop, 200);
+	document.addEventListener('keydown', keyDown, false);
+	document.addEventListener('keyup', keyUp, false);
+}
+
+function gameLoop() {
+	clearCanvas();
+	drawBoundaries();
+}
+
+function clearCanvas() {
+	context.clearRect(0,0,width,height);
+}
+
+//Stuff we won't need
+function keyDown(e) {
+	if (e.keyCode == 39) rightKey = true;
+	else if (e.keyCode == 37) leftKey = true;
+	if (e.keyCode == 38) upKey = true;
+	else if (e.keyCode == 40) downKey = true;
+}
+
+function keyUp(e) {
+	if (e.keyCode == 39) rightKey = false;
+	else if (e.keyCode == 37) leftKey = false;
+	if (e.keyCode == 38) upKey = false;
+	else if (e.keyCode == 40) downKey = false;
+}
+window.onload = init;
 </script>
 
 

@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<title>Lasers 4 Days</title>
+	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+</head>
+<h1>Score</h1>
+<h2 id="score"></h2>
+<canvas id="elementCanvas" width="1600" height="700"> </canvas>
+<body>
+	<div></div>
+</body>
 
 <canvas id="elementCanvas" width="1600" height="700"> </canvas>
 <script>
@@ -7,7 +17,7 @@ var canvas= document.getElementById("elementCanvas"),
 context = canvas.getContext("2d"),
 width = 1600,
 height = 700,
-speed = 500,  // higher is slower
+speed = 400,  // higher is slower
 boundaryPieces = new Array(),
 x = 0,
 topy = 0,
@@ -19,6 +29,7 @@ rightKey = false,
 leftKey = false,
 upKey = false,
 downKey = false,
+score = 0,
 user_x = 20, user_y = 200, user_w = 10, user_h = 10;
 
 function getBoundaries() {
@@ -60,6 +71,9 @@ function shiftScreen() {
 		boundaryPieces[i][0] -= shiftAmount;
 	}
 	x -= shiftAmount;
+
+	score += (shiftAmount/500);
+	document.getElementById('score').innerHTML = Math.round(score);
 }
 
 function paintBoundaries() {
